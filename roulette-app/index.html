@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fff7fb" />
+  <meta name="description" content="候補と2パターンの抽選確率を設定できるパステルカラーのルーレットアプリ" />
+  <title>Pastel Roulette</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="decor decor-one" aria-hidden="true"></div>
+  <div class="decor decor-two" aria-hidden="true"></div>
+  <div class="decor decor-three" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <section class="hero" aria-labelledby="app-title">
+      <p class="eyebrow">PICK SOMETHING FUN</p>
+      <h1 id="app-title">ROULETTE!</h1>
+      <p class="subtitle">ルーレットガチバトル</p>
+    </section>
+
+    <section class="roulette-panel" aria-label="ルーレット">
+      <div class="wheel-wrap">
+        <div class="pointer" aria-hidden="true"></div>
+        <canvas id="wheel" width="720" height="720" aria-label="ルーレット盤"></canvas>
+        <button id="spinButton" class="spin-button" type="button">SPIN!</button>
+      </div>
+      <p id="statusText" class="status" aria-live="polite">候補を2つ以上登録してください。</p>
+    </section>
+
+    <section class="options-panel" aria-labelledby="options-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">OPTIONS</p>
+          <h2 id="options-title">候補</h2>
+        </div>
+        <button id="resetButton" class="text-button" type="button">初期化</button>
+      </div>
+
+      <form id="optionForm" class="option-form">
+        <label class="sr-only" for="optionInput">候補を入力</label>
+        <input
+          id="optionInput"
+          name="option"
+          type="text"
+          maxlength="30"
+          autocomplete="off"
+          placeholder="例：焼肉"
+        />
+        <button type="submit" class="add-button">追加</button>
+      </form>
+
+      <ul id="optionList" class="option-list" aria-label="登録済み候補"></ul>
+      <p class="hint">候補はこのブラウザに自動保存されます。</p>
+    </section>
+  </main>
+
+  <dialog id="resultDialog" class="result-dialog">
+    <div class="dialog-inner result-inner">
+      <p class="eyebrow">RESULT</p>
+      <p id="resultText" class="result-text"></p>
+      <div class="dialog-actions">
+        <button id="closeDialogButton" class="secondary-button" type="button">閉じる</button>
+        <button id="spinAgainButton" class="primary-button" type="button">もう一度</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="probabilityDialog" class="probability-dialog">
+    <form id="probabilityForm" class="dialog-inner probability-inner" method="dialog">
+      <div class="probability-heading">
+        <div>
+          <p class="eyebrow">SECRET SETTINGS</p>
+          <h2>確率パターン設定</h2>
+        </div>
+        <button id="closeProbabilityButton" class="icon-button" type="button" aria-label="確率設定を閉じる">×</button>
+      </div>
+
+      <p class="probability-note">
+        数値は「重み」です。合計は100でなくてもOK。実際の確率は自動計算されます。
+        円盤の表示角度は読みやすさのため常に均等です。
+      </p>
+
+      <div class="probability-table-wrap">
+        <div class="probability-table-header" aria-hidden="true">
+          <span>候補</span>
+          <span>Pattern A</span>
+          <span>Pattern B</span>
+        </div>
+        <div id="probabilityRows" class="probability-rows"></div>
+      </div>
+
+      <p id="probabilityError" class="form-error" aria-live="polite"></p>
+
+      <div class="dialog-actions probability-actions">
+        <button id="cancelProbabilityButton" class="secondary-button" type="button">キャンセル</button>
+        <button class="primary-button" type="submit">保存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <button
+    id="patternToggleHotspot"
+    class="corner-hotspot corner-hotspot-left"
+    type="button"
+    aria-label="隠し操作: 確率パターンAとBを切り替える"
+    title=""
+  ></button>
+  <button
+    id="probabilityHotspot"
+    class="corner-hotspot corner-hotspot-right"
+    type="button"
+    aria-label="隠し操作: 確率設定を開く"
+    title=""
+  ></button>
+
+  <script src="script.js"></script>
+</body>
+</html>
